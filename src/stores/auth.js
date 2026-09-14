@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
-    token: null,
+    token: localStorage.getItem("token"),
     loading: {
       login: false,
       logout: false,
@@ -28,6 +28,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         const data = await login(email, password)
         this.token = data.token
+        localStorage.setItem('token', data.token)
+        await this.fetchUser()
       } catch (error) {
         throw error
       } finally {
@@ -48,5 +50,6 @@ export const useAuthStore = defineStore('auth', {
   },
   getters: {
     isAuthenticated: (state) => !!state.user,
+    role: (state) => state.user?.role
   },
 })

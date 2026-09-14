@@ -31,15 +31,15 @@ const router = createRouter({
 
 export default router
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const auth = useAuthStore()
   const token = auth.token
 
   if (to.meta.requiresAuth && !token) {
-    return next({ name: 'login' })
+    return { name: 'login' }
   }
+
   if (to.meta.guest && token) {
-    return next({ name: 'dashboard' })
+    return { name: 'dashboard' }
   }
-  next()
 })

@@ -36,9 +36,7 @@ export async function logout(){
 }
 
 export async function getUser(){
-  const res = await apiFetch('/api/user', {
-    method: 'POST'
-  })
+  const res = await apiFetch('/api/user')
   const data = await res.json()
   if(!res.ok){
     throw ({
