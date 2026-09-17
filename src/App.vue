@@ -4,8 +4,13 @@ import { useAuthStore } from './stores/auth';
 
 const auth = useAuthStore()
 onMounted(async () =>{
-  if(localStorage.getItem('token')){
+  if(!auth.token) return
+
+  try {
     await auth.fetchUser()
+  } catch (error){
+    console.error('Failed to restore authentication:', error)
+    auth.clearAuth()
   }
 })
 </script>
