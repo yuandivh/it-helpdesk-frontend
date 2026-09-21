@@ -1,7 +1,7 @@
 import { apiFetch } from './api'
 
 export async function getTicket() {
-  const res = apiFetch('/api/tickets')
+  const res = await apiFetch('/api/tickets')
   const data = await res.json()
   if (!res.ok) {
     throw ({
@@ -14,7 +14,7 @@ export async function getTicket() {
 }
 
 export async function showTicket(ticketId) {
-  const res = apiFetch(`/api/tickets/${ticketId}`)
+  const res = await apiFetch(`/api/tickets/${ticketId}`)
   const data = await res.json()
   if (!res.ok) {
     throw ({
@@ -35,7 +35,7 @@ export async function createTicket(
   resolvedAt,
   closedAt,
 ) {
-  const res = apiFetch('/api/tickets', {
+  const res = await apiFetch('/api/tickets', {
     method: 'POST',
     body: JSON.stringify({
       title: title,
@@ -69,7 +69,7 @@ export async function updateTicket(
   resolvedAt,
   closedAt,
 ){
-  const res = apiFetch(`/api/tickets/${ticketId}`, {
+  const res = await apiFetch(`/api/tickets/${ticketId}`, {
     method: 'PUT',
     body: JSON.stringify({
       title: title,
@@ -94,7 +94,7 @@ export async function updateTicket(
 }
 
 export async function deleteTicket(ticketId){
-  const res = apiFetch(`/api/tickets/${ticketId}`,{
+  const res = await apiFetch(`/api/tickets/${ticketId}`,{
     method: 'DELETE'
   })
   const data = await res.json()

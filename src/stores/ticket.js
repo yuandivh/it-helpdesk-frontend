@@ -4,6 +4,11 @@ import { defineStore } from 'pinia'
 export const useTicketStore = defineStore('ticket', {
   state: () => ({
     tickets: [],
+    statistics: {
+      open: 0,
+      in_progress: 0,
+      resolved: 0
+    },
     loading: {
       fetch: false,
       show: false,
@@ -26,7 +31,15 @@ export const useTicketStore = defineStore('ticket', {
     async fetchTicket() {
       this.loading.fetch = true
       try {
-        this.tickets = await getTicket()
+        const response = await getTicket()
+        this.tickets = response.data.data
+        this.statistics.open = response.statistics.open
+        this.statistics.in_progress = response.statistics.in_progress
+        this.statistics.resolved = response.statistics.resolved
+        this.pagination.currentPage = response.data.current_page
+        this.pagination.lastPage = response.data.last_page
+        this.pagination.perPage = response.data.per_page
+        this.pagination.total = response.data.total
       } catch (error) {
         throw error
       } finally {
@@ -94,4 +107,7 @@ export const useTicketStore = defineStore('ticket', {
       }
     },
   },
+  getters: {
+    totalTickets: (state) => state.pagination.total,
+  }
 })
