@@ -41,8 +41,8 @@ onMounted(async () => {
           Create Ticket
         </a>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-        <div class="flex items-center justify-between md:justify-evenly gap-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="flex items-center justify-between">
           <div>
             <div class="text-sm sm:text-xl text-gray-500 font-semibold mb-2">My Tickets</div>
             <div class="text-2xl sm:text-3xl font-bold">{{ ticket.totalTickets }}</div>
@@ -64,7 +64,7 @@ onMounted(async () => {
             </svg>
           </div>
         </div>
-        <div class="flex items-center justify-between md:justify-evenly gap-3">
+        <div class="flex items-center justify-between">
           <div>
             <div class="text-sm sm:text-xl text-gray-500 font-semibold mb-2">Open</div>
             <div class="text-2xl sm:text-3xl font-bold">{{ ticket.statistics.open }}</div>
@@ -86,7 +86,7 @@ onMounted(async () => {
             </svg>
           </div>
         </div>
-        <div class="flex items-center justify-between md:justify-evenly gap-3">
+        <div class="flex items-center justify-between">
           <div>
             <div class="text-sm sm:text-xl text-gray-500 font-semibold mb-2">In Progress</div>
             <div class="text-2xl sm:text-3xl font-bold">{{ ticket.statistics.in_progress }}</div>
@@ -108,7 +108,7 @@ onMounted(async () => {
             </svg>
           </div>
         </div>
-        <div class="flex items-center justify-between md:justify-evenly gap-3">
+        <div class="flex items-center justify-between">
           <div>
             <div class="text-sm sm:text-xl text-gray-500 font-semibold mb-2">Resolved</div>
             <div class="text-2xl sm:text-3xl font-bold">{{ ticket.statistics.resolved }}</div>

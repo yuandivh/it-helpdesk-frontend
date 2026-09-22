@@ -1,7 +1,7 @@
 import { apiFetch } from './api'
 
-export async function getTicket() {
-  const res = await apiFetch('/api/tickets')
+export async function getTicket(query) {
+  const res = await apiFetch(`/api/tickets?${query}`)
   const data = await res.json()
   if (!res.ok) {
     throw ({

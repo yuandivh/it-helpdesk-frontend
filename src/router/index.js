@@ -3,6 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 import AllTicketView from '@/views/AllTicketView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import LoginView from '@/views/LoginView.vue'
+import TicketDetailView from '@/views/TicketDetailView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -33,6 +34,11 @@ const router = createRouter({
           name: 'tickets',
           component: AllTicketView,
         },
+        {
+          path: '/tickets/:id',
+          name: 'ticket-detail',
+          component: TicketDetailView
+        }
       ],
     },
   ],

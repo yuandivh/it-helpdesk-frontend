@@ -15,6 +15,7 @@ export const useTicketStore = defineStore('ticket', {
       create: false,
       update: false,
       delete: false,
+      loadMore:false,
     },
     filters: {
       search: '',
@@ -28,11 +29,28 @@ export const useTicketStore = defineStore('ticket', {
     },
   }),
   actions: {
-    async fetchTicket() {
-      this.loading.fetch = true
+    async fetchTicket(append = false) {
+      if (!append){
+        this.loading.fetch = true
+        this.default()
+      } else {
+        this.loading.loadMore = true
+      }
+      const params = new URLSearchParams()
+      if(this.filters.page !== null){
+        params.append("page", this.filters.page)
+      }
+      if(this.filters.search !== null){
+        params.append("search",  this.filters.search)
+      }
       try {
-        const response = await getTicket()
-        this.tickets = response.data.data
+        const response = await getTicket(params)
+        if(append) {
+          this.tickets.push(...response.data.data)
+        }
+        else{
+          this.tickets = response.data.data
+        }
         this.statistics.open = response.statistics.open
         this.statistics.in_progress = response.statistics.in_progress
         this.statistics.resolved = response.statistics.resolved
@@ -41,15 +59,22 @@ export const useTicketStore = defineStore('ticket', {
         this.pagination.perPage = response.data.per_page
         this.pagination.total = response.data.total
       } catch (error) {
+        this.tickets = []
         throw error
       } finally {
-        this.loading.fetch = false
+        if(!append){
+          this.loading.fetch = false
+        }
+        else{
+          this.loading.loadMore = false
+        }
       }
     },
     async showTicket(ticketId) {
       this.loading.show = true
       try {
-        this.tickets = await showTicket(ticketId)
+        const response = await showTicket(ticketId)
+        this.tickets = response.data
       } catch (error) {
         throw error
       } finally {
@@ -106,6 +131,21 @@ export const useTicketStore = defineStore('ticket', {
         this.loading.delete = false
       }
     },
+    async loadMoreTicket(){
+      if(this.loading.loadMore) return
+      if(this.pagination.currentPage >= this.pagination.lastPage) return
+      this.filters.page = this.pagination.currentPage + 1
+      await this.fetchTicket(true)
+    },
+    default(){
+      this.filters.page = 1
+      this.filters.search = ""
+      this.filters.status = ""
+      this.pagination.currentPage = 1
+      this.pagination.lastPage = 1
+      this.pagination.perPage = 10
+      this.pagination.total = 0
+    }
   },
   getters: {
     totalTickets: (state) => state.pagination.total,

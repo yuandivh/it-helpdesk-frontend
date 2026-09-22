@@ -6,6 +6,11 @@ import { useRoute } from 'vue-router'
 const auth = useAuthStore()
 const route = useRoute()
 const emit = defineEmits(['toggle-sidebar'])
+const pageTitles = {
+  dashboard: 'Dashboard',
+  tickets: 'All Tickets',
+  'ticket-detail': 'Ticket Detail',
+}
 </script>
 <template>
   <div class="flex justify-between items-center py-4 px-8">
@@ -26,7 +31,7 @@ const emit = defineEmits(['toggle-sidebar'])
         </svg>
       </button>
       <div class="text-2xl md:text-3xl font-bold">
-        {{ route.name === 'tickets' ? 'All Ticket' : 'Dashboard' }}
+        {{ pageTitles[route.name] }}
       </div>
     </div>
     <div class="flex items-center">
